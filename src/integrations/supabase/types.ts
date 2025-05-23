@@ -9,7 +9,474 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      articles: {
+        Row: {
+          author_avatar: string | null
+          author_name: string | null
+          category: string | null
+          content: Json | null
+          created_at: string | null
+          excerpt: string | null
+          featured_image: string | null
+          id: string
+          meta_description: string | null
+          meta_title: string | null
+          published_at: string | null
+          read_time: number | null
+          slug: string
+          status: Database["public"]["Enums"]["content_status"] | null
+          tags: string[] | null
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          author_avatar?: string | null
+          author_name?: string | null
+          category?: string | null
+          content?: Json | null
+          created_at?: string | null
+          excerpt?: string | null
+          featured_image?: string | null
+          id?: string
+          meta_description?: string | null
+          meta_title?: string | null
+          published_at?: string | null
+          read_time?: number | null
+          slug: string
+          status?: Database["public"]["Enums"]["content_status"] | null
+          tags?: string[] | null
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          author_avatar?: string | null
+          author_name?: string | null
+          category?: string | null
+          content?: Json | null
+          created_at?: string | null
+          excerpt?: string | null
+          featured_image?: string | null
+          id?: string
+          meta_description?: string | null
+          meta_title?: string | null
+          published_at?: string | null
+          read_time?: number | null
+          slug?: string
+          status?: Database["public"]["Enums"]["content_status"] | null
+          tags?: string[] | null
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      case_studies: {
+        Row: {
+          challenge: string | null
+          client_logo: string | null
+          client_name: string | null
+          content: Json | null
+          created_at: string | null
+          description: string | null
+          featured_image: string | null
+          gallery_images: string[] | null
+          id: string
+          industry: string | null
+          meta_description: string | null
+          meta_title: string | null
+          project_duration: string | null
+          results: Json | null
+          slug: string
+          solution: string | null
+          status: Database["public"]["Enums"]["content_status"] | null
+          team_size: number | null
+          technologies: string[] | null
+          testimonial_author: string | null
+          testimonial_position: string | null
+          testimonial_quote: string | null
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          challenge?: string | null
+          client_logo?: string | null
+          client_name?: string | null
+          content?: Json | null
+          created_at?: string | null
+          description?: string | null
+          featured_image?: string | null
+          gallery_images?: string[] | null
+          id?: string
+          industry?: string | null
+          meta_description?: string | null
+          meta_title?: string | null
+          project_duration?: string | null
+          results?: Json | null
+          slug: string
+          solution?: string | null
+          status?: Database["public"]["Enums"]["content_status"] | null
+          team_size?: number | null
+          technologies?: string[] | null
+          testimonial_author?: string | null
+          testimonial_position?: string | null
+          testimonial_quote?: string | null
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          challenge?: string | null
+          client_logo?: string | null
+          client_name?: string | null
+          content?: Json | null
+          created_at?: string | null
+          description?: string | null
+          featured_image?: string | null
+          gallery_images?: string[] | null
+          id?: string
+          industry?: string | null
+          meta_description?: string | null
+          meta_title?: string | null
+          project_duration?: string | null
+          results?: Json | null
+          slug?: string
+          solution?: string | null
+          status?: Database["public"]["Enums"]["content_status"] | null
+          team_size?: number | null
+          technologies?: string[] | null
+          testimonial_author?: string | null
+          testimonial_position?: string | null
+          testimonial_quote?: string | null
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      pages: {
+        Row: {
+          content: Json | null
+          created_at: string | null
+          description: string | null
+          featured_image: string | null
+          id: string
+          meta_description: string | null
+          meta_keywords: string[] | null
+          meta_title: string | null
+          slug: string
+          status: Database["public"]["Enums"]["content_status"] | null
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          content?: Json | null
+          created_at?: string | null
+          description?: string | null
+          featured_image?: string | null
+          id?: string
+          meta_description?: string | null
+          meta_keywords?: string[] | null
+          meta_title?: string | null
+          slug: string
+          status?: Database["public"]["Enums"]["content_status"] | null
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          content?: Json | null
+          created_at?: string | null
+          description?: string | null
+          featured_image?: string | null
+          id?: string
+          meta_description?: string | null
+          meta_keywords?: string[] | null
+          meta_title?: string | null
+          slug?: string
+          status?: Database["public"]["Enums"]["content_status"] | null
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      seo_settings: {
+        Row: {
+          canonical_url: string | null
+          id: string
+          meta_description: string | null
+          meta_keywords: string[] | null
+          meta_title: string | null
+          og_description: string | null
+          og_image: string | null
+          og_title: string | null
+          page_type: string
+          robots_directive: string | null
+          structured_data: Json | null
+          twitter_description: string | null
+          twitter_image: string | null
+          twitter_title: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          canonical_url?: string | null
+          id?: string
+          meta_description?: string | null
+          meta_keywords?: string[] | null
+          meta_title?: string | null
+          og_description?: string | null
+          og_image?: string | null
+          og_title?: string | null
+          page_type: string
+          robots_directive?: string | null
+          structured_data?: Json | null
+          twitter_description?: string | null
+          twitter_image?: string | null
+          twitter_title?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          canonical_url?: string | null
+          id?: string
+          meta_description?: string | null
+          meta_keywords?: string[] | null
+          meta_title?: string | null
+          og_description?: string | null
+          og_image?: string | null
+          og_title?: string | null
+          page_type?: string
+          robots_directive?: string | null
+          structured_data?: Json | null
+          twitter_description?: string | null
+          twitter_image?: string | null
+          twitter_title?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      services: {
+        Row: {
+          category: Database["public"]["Enums"]["service_category"] | null
+          content: Json | null
+          created_at: string | null
+          description: string | null
+          featured_image: string | null
+          features: string[] | null
+          icon: string | null
+          id: string
+          meta_description: string | null
+          meta_title: string | null
+          pricing_info: Json | null
+          short_description: string | null
+          slug: string
+          sort_order: number | null
+          status: Database["public"]["Enums"]["content_status"] | null
+          technologies: string[] | null
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          category?: Database["public"]["Enums"]["service_category"] | null
+          content?: Json | null
+          created_at?: string | null
+          description?: string | null
+          featured_image?: string | null
+          features?: string[] | null
+          icon?: string | null
+          id?: string
+          meta_description?: string | null
+          meta_title?: string | null
+          pricing_info?: Json | null
+          short_description?: string | null
+          slug: string
+          sort_order?: number | null
+          status?: Database["public"]["Enums"]["content_status"] | null
+          technologies?: string[] | null
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          category?: Database["public"]["Enums"]["service_category"] | null
+          content?: Json | null
+          created_at?: string | null
+          description?: string | null
+          featured_image?: string | null
+          features?: string[] | null
+          icon?: string | null
+          id?: string
+          meta_description?: string | null
+          meta_title?: string | null
+          pricing_info?: Json | null
+          short_description?: string | null
+          slug?: string
+          sort_order?: number | null
+          status?: Database["public"]["Enums"]["content_status"] | null
+          technologies?: string[] | null
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      site_settings: {
+        Row: {
+          description: string | null
+          id: string
+          setting_key: string
+          setting_value: Json | null
+          updated_at: string | null
+        }
+        Insert: {
+          description?: string | null
+          id?: string
+          setting_key: string
+          setting_value?: Json | null
+          updated_at?: string | null
+        }
+        Update: {
+          description?: string | null
+          id?: string
+          setting_key?: string
+          setting_value?: Json | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      solutions: {
+        Row: {
+          benefits: string[] | null
+          category: Database["public"]["Enums"]["solution_category"] | null
+          content: Json | null
+          created_at: string | null
+          description: string | null
+          featured_image: string | null
+          features: string[] | null
+          icon: string | null
+          id: string
+          meta_description: string | null
+          meta_title: string | null
+          short_description: string | null
+          slug: string
+          sort_order: number | null
+          status: Database["public"]["Enums"]["content_status"] | null
+          target_audience: string[] | null
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          benefits?: string[] | null
+          category?: Database["public"]["Enums"]["solution_category"] | null
+          content?: Json | null
+          created_at?: string | null
+          description?: string | null
+          featured_image?: string | null
+          features?: string[] | null
+          icon?: string | null
+          id?: string
+          meta_description?: string | null
+          meta_title?: string | null
+          short_description?: string | null
+          slug: string
+          sort_order?: number | null
+          status?: Database["public"]["Enums"]["content_status"] | null
+          target_audience?: string[] | null
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          benefits?: string[] | null
+          category?: Database["public"]["Enums"]["solution_category"] | null
+          content?: Json | null
+          created_at?: string | null
+          description?: string | null
+          featured_image?: string | null
+          features?: string[] | null
+          icon?: string | null
+          id?: string
+          meta_description?: string | null
+          meta_title?: string | null
+          short_description?: string | null
+          slug?: string
+          sort_order?: number | null
+          status?: Database["public"]["Enums"]["content_status"] | null
+          target_audience?: string[] | null
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      testimonials: {
+        Row: {
+          client_avatar: string | null
+          client_company: string | null
+          client_name: string
+          client_position: string | null
+          created_at: string | null
+          featured: boolean | null
+          id: string
+          project_type: string | null
+          rating: number | null
+          status: Database["public"]["Enums"]["content_status"] | null
+          testimonial_text: string
+          updated_at: string | null
+        }
+        Insert: {
+          client_avatar?: string | null
+          client_company?: string | null
+          client_name: string
+          client_position?: string | null
+          created_at?: string | null
+          featured?: boolean | null
+          id?: string
+          project_type?: string | null
+          rating?: number | null
+          status?: Database["public"]["Enums"]["content_status"] | null
+          testimonial_text: string
+          updated_at?: string | null
+        }
+        Update: {
+          client_avatar?: string | null
+          client_company?: string | null
+          client_name?: string
+          client_position?: string | null
+          created_at?: string | null
+          featured?: boolean | null
+          id?: string
+          project_type?: string | null
+          rating?: number | null
+          status?: Database["public"]["Enums"]["content_status"] | null
+          testimonial_text?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      tool_logs: {
+        Row: {
+          action: string
+          created_at: string | null
+          id: string
+          ip_address: unknown | null
+          metadata: Json | null
+          session_id: string | null
+          tool_name: string
+          user_agent: string | null
+        }
+        Insert: {
+          action: string
+          created_at?: string | null
+          id?: string
+          ip_address?: unknown | null
+          metadata?: Json | null
+          session_id?: string | null
+          tool_name: string
+          user_agent?: string | null
+        }
+        Update: {
+          action?: string
+          created_at?: string | null
+          id?: string
+          ip_address?: unknown | null
+          metadata?: Json | null
+          session_id?: string | null
+          tool_name?: string
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -18,7 +485,23 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      content_status: "draft" | "published" | "archived"
+      service_category:
+        | "ai-tools"
+        | "ai-automation"
+        | "web3"
+        | "web-development"
+        | "growth-hacking"
+        | "devops"
+        | "ui-ux"
+        | "launch-lab"
+      solution_category:
+        | "saas"
+        | "ecommerce"
+        | "fintech"
+        | "healthcare"
+        | "education"
+        | "enterprise"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -133,6 +616,26 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      content_status: ["draft", "published", "archived"],
+      service_category: [
+        "ai-tools",
+        "ai-automation",
+        "web3",
+        "web-development",
+        "growth-hacking",
+        "devops",
+        "ui-ux",
+        "launch-lab",
+      ],
+      solution_category: [
+        "saas",
+        "ecommerce",
+        "fintech",
+        "healthcare",
+        "education",
+        "enterprise",
+      ],
+    },
   },
 } as const
