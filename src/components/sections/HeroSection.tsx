@@ -5,8 +5,12 @@ import { Button } from '@/components/ui/button';
 const HeroSection = () => {
   return (
     <section className="relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-br from-primary via-techGray-900 to-primary"></div>
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=\"60\" height=\"60\" viewBox=\"0 0 60 60\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cg fill=\"none\" fill-rule=\"evenodd\"%3E%3Cg fill=\"%23FF6A00\" fill-opacity=\"0.05\"%3E%3Ccircle cx=\"30\" cy=\"30\" r=\"1\"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-50"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-primary via-gray-900 to-primary"></div>
+      <div className="absolute inset-0 opacity-50">
+        <div className="w-full h-full" style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23FF6A00' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
+        }}></div>
+      </div>
       
       <div className="relative section-container py-24 lg:py-32">
         <div className="text-center max-w-4xl mx-auto">
@@ -15,7 +19,7 @@ const HeroSection = () => {
             <span className="gradient-text">Scales Your Business</span>
           </h1>
           
-          <p className="text-xl md:text-2xl text-techGray-300 mb-8 max-w-3xl mx-auto animate-slide-up">
+          <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto animate-slide-up">
             From AI automation to Web3 development, we build cutting-edge solutions that drive real results. 
             Transform your business with technology that works.
           </p>
@@ -38,19 +42,19 @@ const HeroSection = () => {
           <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <div className="animate-fade-in">
               <div className="text-3xl font-bold text-accent mb-2">500+</div>
-              <div className="text-techGray-400">Projects Delivered</div>
+              <div className="text-gray-400">Projects Delivered</div>
             </div>
             <div className="animate-fade-in">
               <div className="text-3xl font-bold text-accent mb-2">98%</div>
-              <div className="text-techGray-400">Client Satisfaction</div>
+              <div className="text-gray-400">Client Satisfaction</div>
             </div>
             <div className="animate-fade-in">
               <div className="text-3xl font-bold text-accent mb-2">24/7</div>
-              <div className="text-techGray-400">Support Available</div>
+              <div className="text-gray-400">Support Available</div>
             </div>
             <div className="animate-fade-in">
               <div className="text-3xl font-bold text-accent mb-2">5+</div>
-              <div className="text-techGray-400">Years Experience</div>
+              <div className="text-gray-400">Years Experience</div>
             </div>
           </div>
         </div>
