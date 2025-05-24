@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -10,6 +11,7 @@ import Solutions from "./pages/Solutions";
 import Contact from "./pages/Contact";
 import About from "./pages/About";
 import Articles from "./pages/Articles";
+import CaseStudies from "./pages/CaseStudies";
 import AIAutomation from "./pages/services/AIAutomation";
 import ServiceDetail from "./pages/services/ServiceDetail";
 import SolutionDetail from "./pages/solutions/SolutionDetail";
@@ -46,6 +48,7 @@ const App = () => (
             <Route path="/contact" element={<Contact />} />
             <Route path="/about" element={<About />} />
             <Route path="/articles" element={<Articles />} />
+            <Route path="/case-studies" element={<CaseStudies />} />
             
             {/* Services Routes */}
             <Route path="/services/ai-automation" element={<AIAutomation />} />
@@ -67,9 +70,6 @@ const App = () => (
               <Route path="seo-settings" element={<Dashboard />} />
               <Route path="tool-logs" element={<Dashboard />} />
             </Route>
-            
-            {/* Other Pages */}
-            <Route path="/case-studies" element={<Index />} />
             
             {/* Legal Pages */}
             <Route path="/privacy" element={<Index />} />

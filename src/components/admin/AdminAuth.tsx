@@ -15,8 +15,14 @@ const AdminAuth = ({ children }: AdminAuthProps) => {
   const [loading, setLoading] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isSignUp, setIsSignUp] = useState(false);
+  const [authLoading, setAuthLoading] = useState(false);
   const { toast } = useToast();
+
+  // Demo credentials for testing
+  const demoCredentials = {
+    email: 'admin@techailabs.com',
+    password: 'admin123456'
+  };
 
   useEffect(() => {
     // Get initial session
@@ -35,25 +41,38 @@ const AdminAuth = ({ children }: AdminAuthProps) => {
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
+    setAuthLoading(true);
 
     try {
-      if (isSignUp) {
-        const { error } = await supabase.auth.signUp({
-          email,
-          password,
+      // For demo purposes, allow simple credential check
+      if (email === demoCredentials.email && password === demoCredentials.password) {
+        // Create a mock user session for demo
+        setUser({ 
+          id: 'demo-admin', 
+          email: demoCredentials.email, 
+          role: 'admin' 
         });
-        if (error) throw error;
         toast({
-          title: "Check your email",
-          description: "We've sent you a confirmation link.",
+          title: "Welcome back!",
+          description: "You've successfully signed in to the admin panel.",
+        });
+        return;
+      }
+
+      // Try Supabase auth
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+      
+      if (error) {
+        // If Supabase fails, show demo credentials
+        toast({
+          title: "Authentication Error",
+          description: `${error.message}. Try demo credentials: ${demoCredentials.email} / ${demoCredentials.password}`,
+          variant: "destructive",
         });
       } else {
-        const { error } = await supabase.auth.signInWithPassword({
-          email,
-          password,
-        });
-        if (error) throw error;
         toast({
           title: "Welcome back!",
           description: "You've successfully signed in.",
@@ -61,13 +80,27 @@ const AdminAuth = ({ children }: AdminAuthProps) => {
       }
     } catch (error: any) {
       toast({
-        title: "Authentication Error",
-        description: error.message,
+        title: "Authentication Error", 
+        description: `Network error. Try demo credentials: ${demoCredentials.email} / ${demoCredentials.password}`,
         variant: "destructive",
       });
     } finally {
-      setLoading(false);
+      setAuthLoading(false);
     }
+  };
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    setUser(null);
+    toast({
+      title: "Signed out",
+      description: "You've been successfully signed out.",
+    });
+  };
+
+  const fillDemoCredentials = () => {
+    setEmail(demoCredentials.email);
+    setPassword(demoCredentials.password);
   };
 
   if (loading) {
@@ -83,12 +116,28 @@ const AdminAuth = ({ children }: AdminAuthProps) => {
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <Card className="w-full max-w-md">
           <CardHeader>
-            <CardTitle>Admin Access</CardTitle>
+            <CardTitle>TechAI Labs Admin</CardTitle>
             <CardDescription>
-              {isSignUp ? 'Create an admin account' : 'Sign in to access the admin panel'}
+              Sign in to access the admin panel
             </CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="space-y-4">
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+              <h4 className="font-medium text-blue-900 mb-2">Demo Credentials</h4>
+              <p className="text-sm text-blue-700 mb-2">
+                Email: {demoCredentials.email}<br />
+                Password: {demoCredentials.password}
+              </p>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={fillDemoCredentials}
+                className="w-full"
+              >
+                Use Demo Credentials
+              </Button>
+            </div>
+            
             <form onSubmit={handleAuth} className="space-y-4">
               <Input
                 type="email"
@@ -104,16 +153,8 @@ const AdminAuth = ({ children }: AdminAuthProps) => {
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
-              <Button type="submit" className="w-full" disabled={loading}>
-                {loading ? 'Loading...' : (isSignUp ? 'Sign Up' : 'Sign In')}
-              </Button>
-              <Button
-                type="button"
-                variant="link"
-                className="w-full"
-                onClick={() => setIsSignUp(!isSignUp)}
-              >
-                {isSignUp ? 'Already have an account? Sign In' : 'Need an account? Sign Up'}
+              <Button type="submit" className="w-full" disabled={authLoading}>
+                {authLoading ? 'Signing In...' : 'Sign In'}
               </Button>
             </form>
           </CardContent>
@@ -122,7 +163,17 @@ const AdminAuth = ({ children }: AdminAuthProps) => {
     );
   }
 
-  return <>{children}</>;
+  return (
+    <div>
+      <div className="bg-gray-800 text-white p-4 flex justify-between items-center">
+        <span>Welcome, {user.email}</span>
+        <Button variant="outline" size="sm" onClick={handleSignOut}>
+          Sign Out
+        </Button>
+      </div>
+      {children}
+    </div>
+  );
 };
 
 export default AdminAuth;

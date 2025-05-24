@@ -11,6 +11,7 @@ import SEOOptimizer from '@/components/SEOOptimizer';
 const Services = () => {
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const { seoData } = useSEO('services');
   
   useToolLogger('services_page', 'view');
@@ -24,10 +25,18 @@ const Services = () => {
           .eq('status', 'published')
           .order('sort_order', { ascending: true });
 
-        if (error) throw error;
-        setServices(data || []);
+        if (error) {
+          console.error('Supabase error:', error);
+          // Fall back to default services if database fails
+          setServices(getDefaultServices());
+        } else {
+          setServices(data || getDefaultServices());
+        }
       } catch (error) {
         console.error('Error fetching services:', error);
+        // Fall back to default services if fetch fails
+        setServices(getDefaultServices());
+        setError('Failed to load services from database, showing default services');
       } finally {
         setLoading(false);
       }
@@ -35,6 +44,69 @@ const Services = () => {
 
     fetchServices();
   }, []);
+
+  const getDefaultServices = () => [
+    {
+      id: '1',
+      title: "AI Tool Development",
+      slug: "ai-tools",
+      description: "Custom AI solutions, chatbots, and intelligent automation tools tailored to your business needs.",
+      short_description: "Custom AI solutions, chatbots, and intelligent automation tools tailored to your business needs.",
+      icon: "🤖",
+      features: ["Custom AI Models", "Chatbot Development", "ML Integration", "AI Consulting"],
+      status: "published"
+    },
+    {
+      id: '2',
+      title: "AI Automation",
+      slug: "ai-automation",
+      description: "Streamline your workflows with intelligent automation for SaaS, CRM, and business processes.",
+      short_description: "Streamline your workflows with intelligent automation for SaaS, CRM, and business processes.",
+      icon: "⚡",
+      features: ["Process Automation", "Lead Generation", "CRM Integration", "Workflow Optimization"],
+      status: "published"
+    },
+    {
+      id: '3',
+      title: "Web3 Development",
+      slug: "web3",
+      description: "Blockchain games, DeFi protocols, and decentralized applications on Polkadot, Solana, and more.",
+      short_description: "Blockchain games, DeFi protocols, and decentralized applications on Polkadot, Solana, and more.",
+      icon: "🌐",
+      features: ["Smart Contracts", "DeFi Protocols", "NFT Platforms", "Blockchain Games"],
+      status: "published"
+    },
+    {
+      id: '4',
+      title: "Website & App Development",
+      slug: "web-development",
+      description: "High-performance websites and mobile apps that convert visitors into customers.",
+      short_description: "High-performance websites and mobile apps that convert visitors into customers.",
+      icon: "💻",
+      features: ["Custom Development", "E-commerce", "Mobile Apps", "Progressive Web Apps"],
+      status: "published"
+    },
+    {
+      id: '5',
+      title: "Growth Hacking & Marketing",
+      slug: "growth-hacking",
+      description: "Data-driven marketing strategies for Web3, AI, and SaaS companies to accelerate growth.",
+      short_description: "Data-driven marketing strategies for Web3, AI, and SaaS companies to accelerate growth.",
+      icon: "📈",
+      features: ["Digital Marketing", "SEO Optimization", "Conversion Optimization", "Analytics"],
+      status: "published"
+    },
+    {
+      id: '6',
+      title: "DevOps & Infrastructure",
+      slug: "devops",
+      description: "Scalable cloud infrastructure on AWS, Azure, and modern DevOps practices for reliability.",
+      short_description: "Scalable cloud infrastructure on AWS, Azure, and modern DevOps practices for reliability.",
+      icon: "🔧",
+      features: ["Cloud Migration", "CI/CD Pipelines", "Infrastructure as Code", "Security"],
+      status: "published"
+    }
+  ];
 
   const defaultSEO = {
     title: "Services - TechAI Labs | AI, Web3, Development Solutions",
@@ -89,6 +161,12 @@ const Services = () => {
         {/* Services Grid */}
         <section className="py-24">
           <div className="section-container">
+            {error && (
+              <div className="text-center py-4 mb-8">
+                <div className="text-yellow-400 text-sm">{error}</div>
+              </div>
+            )}
+            
             {loading ? (
               <div className="text-center py-12">
                 <div className="text-xl text-white">Loading services...</div>
