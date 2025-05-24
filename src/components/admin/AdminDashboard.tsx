@@ -31,9 +31,9 @@ const AdminDashboard = () => {
 
   const fetchAdminUsers = async () => {
     try {
-      // Use raw query since types aren't updated yet
-      const { data, error } = await supabase
-        .from('admin_users' as any)
+      // Use type assertion for the new table
+      const { data, error } = await (supabase as any)
+        .from('admin_users')
         .select('*')
         .order('created_at', { ascending: false });
 
@@ -65,9 +65,9 @@ const AdminDashboard = () => {
       if (authError) throw authError;
 
       if (authData.user) {
-        // Add to admin_users table
-        const { error: adminError } = await supabase
-          .from('admin_users' as any)
+        // Add to admin_users table using type assertion
+        const { error: adminError } = await (supabase as any)
+          .from('admin_users')
           .insert({
             id: authData.user.id,
             email: newUserEmail,
@@ -99,8 +99,9 @@ const AdminDashboard = () => {
     if (!confirm('Are you sure you want to delete this admin user?')) return;
 
     try {
-      const { error } = await supabase
-        .from('admin_users' as any)
+      // Use type assertion for the new table
+      const { error } = await (supabase as any)
+        .from('admin_users')
         .delete()
         .eq('id', userId);
 

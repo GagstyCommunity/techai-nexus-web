@@ -35,27 +35,18 @@ const NewsletterSubscription = ({ inline = false }: { inline?: boolean }) => {
     setIsLoading(true);
     
     try {
-      // Store subscription in database using raw SQL since types aren't updated yet
-      const { error } = await supabase.rpc('create_newsletter_subscription', {
-        p_email: email,
-        p_preferences: preferences,
-        p_source: inline ? 'inline-widget' : 'newsletter-page'
-      });
+      // Use type assertion for the new table
+      const { error } = await (supabase as any)
+        .from('newsletter_subscriptions')
+        .insert({
+          email,
+          preferences,
+          source: inline ? 'inline-widget' : 'newsletter-page',
+          status: 'active',
+          subscribed_at: new Date().toISOString(),
+        });
 
-      if (error) {
-        // Fallback to direct insert if RPC doesn't exist
-        const { error: insertError } = await supabase
-          .from('newsletter_subscriptions' as any)
-          .insert({
-            email,
-            preferences,
-            source: inline ? 'inline-widget' : 'newsletter-page',
-            status: 'active',
-            subscribed_at: new Date().toISOString(),
-          });
-
-        if (insertError) throw insertError;
-      }
+      if (error) throw error;
 
       setIsSubscribed(true);
       
