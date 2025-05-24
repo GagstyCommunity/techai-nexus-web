@@ -13,28 +13,28 @@ const RecommendationEngine = () => {
   if (recommendations.length === 0) return null;
 
   return (
-    <Card className="bg-gradient-to-br from-primary/5 to-accent/5 border-accent/20">
-      <CardHeader>
-        <CardTitle className="flex items-center text-accent">
-          <Sparkles className="w-5 h-5 mr-2" />
+    <Card className="bg-white/5 backdrop-blur-sm border border-gray-700/30 shadow-xl">
+      <CardHeader className="border-b border-gray-700/20">
+        <CardTitle className="flex items-center text-accent text-xl">
+          <Sparkles className="w-6 h-6 mr-2" />
           Recommended for You
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-4 p-6">
         {recommendations.slice(0, 3).map((rec, index) => (
           <div
             key={rec.serviceSlug}
-            className="flex items-center justify-between p-3 bg-white/50 rounded-lg border border-gray-200/50 hover:border-accent/30 transition-colors"
+            className="flex items-center justify-between p-4 bg-white/10 backdrop-blur-sm rounded-lg border border-gray-600/20 hover:border-accent/30 hover:bg-white/15 transition-all duration-300"
           >
             <div className="flex-1">
-              <h4 className="font-semibold text-gray-900">{rec.title}</h4>
-              <p className="text-sm text-gray-600 mt-1">{rec.reason}</p>
-              <Badge variant="secondary" className="mt-2 text-xs">
+              <h4 className="font-semibold text-white mb-1">{rec.title}</h4>
+              <p className="text-sm text-gray-300 mb-2">{rec.reason}</p>
+              <Badge variant="secondary" className="text-xs bg-accent/20 text-accent border-accent/30">
                 {Math.round(rec.score * 100)}% match
               </Badge>
             </div>
             <Link to={`/services/${rec.serviceSlug}`}>
-              <Button variant="ghost" size="sm" className="text-accent hover:text-accent/80">
+              <Button variant="ghost" size="sm" className="text-accent hover:text-accent/80 hover:bg-accent/10">
                 <ArrowRight className="w-4 h-4" />
               </Button>
             </Link>

@@ -14,8 +14,8 @@ const FinalCTASection = () => {
             Book a free strategy call and discover how our end-to-end tech solutions can accelerate your growth.
           </p>
           
-          <div className="bg-gradient-to-r from-accent/10 to-accent-hover/10 border border-accent/30 rounded-2xl p-8 mb-8">
-            <h3 className="text-2xl font-bold text-white mb-4">Free Strategy Call Includes:</h3>
+          <div className="bg-white/5 backdrop-blur-sm border border-gray-700/30 rounded-2xl p-8 mb-8 shadow-xl">
+            <h3 className="text-2xl font-bold text-white mb-6">Free Strategy Call Includes:</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left max-w-2xl mx-auto">
               {[
                 "Complete tech audit of your current setup",
@@ -23,9 +23,9 @@ const FinalCTASection = () => {
                 "ROI projections and timeline estimates",
                 "Technology recommendations and best practices"
               ].map((item, index) => (
-                <div key={index} className="flex items-center text-techGray-300">
-                  <span className="w-2 h-2 bg-accent rounded-full mr-3"></span>
-                  {item}
+                <div key={index} className="flex items-center text-gray-200">
+                  <span className="w-3 h-3 bg-accent rounded-full mr-3 flex-shrink-0"></span>
+                  <span className="text-sm">{item}</span>
                 </div>
               ))}
             </div>

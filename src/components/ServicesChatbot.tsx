@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -165,33 +164,33 @@ const ServicesChatbot = () => {
         </Button>
       </div>
 
-      {/* Chatbot Window */}
+      {/* Chatbot Window - Fixed overflow and sizing */}
       {isOpen && (
-        <div className="fixed bottom-24 right-6 w-96 h-[500px] z-40 animate-fade-in">
-          <Card className="h-full flex flex-col shadow-xl border-2">
-            <CardHeader className="bg-gradient-to-r from-primary to-accent text-white rounded-t-lg">
+        <div className="fixed bottom-24 right-6 w-96 max-w-[calc(100vw-3rem)] h-[500px] max-h-[calc(100vh-8rem)] z-40 animate-fade-in">
+          <Card className="h-full flex flex-col shadow-xl border-2 bg-white">
+            <CardHeader className="bg-gradient-to-r from-primary to-accent text-white rounded-t-lg flex-shrink-0">
               <CardTitle className="text-lg flex items-center">
                 <MessageCircle className="w-5 h-5 mr-2" />
                 AI Services Assistant
               </CardTitle>
             </CardHeader>
             
-            <CardContent className="flex-1 flex flex-col p-0">
-              {/* Messages */}
-              <div className="flex-1 overflow-y-auto p-4 space-y-4">
+            <CardContent className="flex-1 flex flex-col p-0 min-h-0">
+              {/* Messages - Fixed scrolling */}
+              <div className="flex-1 overflow-y-auto p-4 space-y-4 min-h-0">
                 {messages.map((message) => (
                   <div
                     key={message.id}
                     className={`flex ${message.isBot ? 'justify-start' : 'justify-end'}`}
                   >
                     <div
-                      className={`max-w-xs px-4 py-2 rounded-lg ${
+                      className={`max-w-[280px] px-4 py-2 rounded-lg break-words ${
                         message.isBot
                           ? 'bg-gray-100 text-gray-800'
                           : 'bg-accent text-white'
                       }`}
                     >
-                      <p className="text-sm">{message.text}</p>
+                      <p className="text-sm whitespace-pre-wrap">{message.text}</p>
                       {message.services && message.services.length > 0 && (
                         <div className="mt-2 space-y-1">
                           {message.services.map((serviceSlug) => {
@@ -200,7 +199,7 @@ const ServicesChatbot = () => {
                               <Badge
                                 key={serviceSlug}
                                 variant="secondary"
-                                className="cursor-pointer hover:bg-accent hover:text-white mr-1 mb-1"
+                                className="cursor-pointer hover:bg-accent hover:text-white mr-1 mb-1 text-xs"
                                 onClick={() => handleServiceClick(service.slug)}
                               >
                                 {service.title}
@@ -227,8 +226,8 @@ const ServicesChatbot = () => {
                 <div ref={messagesEndRef} />
               </div>
 
-              {/* Input */}
-              <div className="p-4 border-t">
+              {/* Input - Fixed positioning */}
+              <div className="p-4 border-t bg-white flex-shrink-0">
                 <div className="flex space-x-2">
                   <Input
                     value={inputValue}

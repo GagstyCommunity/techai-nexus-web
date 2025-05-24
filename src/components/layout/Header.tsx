@@ -44,11 +44,11 @@ const Header = () => {
             </div>
           </div>
 
-          {/* CTA Button */}
+          {/* CTA Button - Fixed color */}
           <div className="hidden md:block">
             <Button 
               onClick={() => window.open('https://calendly.com/brain-techailabs/techailabs', '_blank')}
-              className="btn-primary"
+              className="bg-accent hover:bg-accent-hover text-white font-medium py-2 px-6 rounded-lg transition-colors duration-300"
             >
               Free Consultation
             </Button>
@@ -90,7 +90,7 @@ const Header = () => {
                   window.open('https://calendly.com/brain-techailabs/techailabs', '_blank');
                   setIsMenuOpen(false);
                 }}
-                className="btn-primary w-full mt-4"
+                className="bg-accent hover:bg-accent-hover text-white font-medium w-full mt-4 py-2 px-6 rounded-lg transition-colors duration-300"
               >
                 Free Consultation
               </Button>

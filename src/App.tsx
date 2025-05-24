@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -12,6 +11,8 @@ import Contact from "./pages/Contact";
 import About from "./pages/About";
 import Articles from "./pages/Articles";
 import AIAutomation from "./pages/services/AIAutomation";
+import ServiceDetail from "./pages/services/ServiceDetail";
+import SolutionDetail from "./pages/solutions/SolutionDetail";
 import NotFound from "./pages/NotFound";
 
 // Admin components
@@ -39,20 +40,15 @@ const App = () => (
             
             {/* Main Pages */}
             <Route path="/services" element={<Services />} />
+            <Route path="/services/:slug" element={<ServiceDetail />} />
             <Route path="/solutions" element={<Solutions />} />
+            <Route path="/solutions/:slug" element={<SolutionDetail />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/about" element={<About />} />
             <Route path="/articles" element={<Articles />} />
             
             {/* Services Routes */}
             <Route path="/services/ai-automation" element={<AIAutomation />} />
-            <Route path="/services/ai-tools" element={<Index />} />
-            <Route path="/services/web3" element={<Index />} />
-            <Route path="/services/web-development" element={<Index />} />
-            <Route path="/services/growth-hacking" element={<Index />} />
-            <Route path="/services/devops" element={<Index />} />
-            <Route path="/services/ui-ux" element={<Index />} />
-            <Route path="/services/launch-lab" element={<Index />} />
             
             {/* Admin Routes */}
             <Route path="/admin/*" element={
@@ -72,7 +68,7 @@ const App = () => (
               <Route path="tool-logs" element={<Dashboard />} />
             </Route>
             
-            {/* Other Pages - To be created */}
+            {/* Other Pages */}
             <Route path="/case-studies" element={<Index />} />
             
             {/* Legal Pages */}
