@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -18,6 +19,11 @@ import AdminAuth from "./components/admin/AdminAuth";
 import AdminLayout from "./components/admin/AdminLayout";
 import Dashboard from "./pages/admin/Dashboard";
 import ServicesAdmin from "./pages/admin/ServicesAdmin";
+import AdminDashboard from "./components/admin/AdminDashboard";
+
+// New components
+import ServicesChatbot from "./components/ServicesChatbot";
+import ConsultationWidget from "./components/ConsultationWidget";
 
 const queryClient = new QueryClient();
 
@@ -55,6 +61,7 @@ const App = () => (
               </AdminAuth>
             }>
               <Route index element={<Dashboard />} />
+              <Route path="dashboard" element={<AdminDashboard />} />
               <Route path="services" element={<ServicesAdmin />} />
               <Route path="pages" element={<Dashboard />} />
               <Route path="solutions" element={<Dashboard />} />
@@ -76,6 +83,10 @@ const App = () => (
             {/* Catch-all route */}
             <Route path="*" element={<NotFound />} />
           </Routes>
+          
+          {/* Global Components */}
+          <ServicesChatbot />
+          <ConsultationWidget />
         </BrowserRouter>
       </TooltipProvider>
     </HelmetProvider>
