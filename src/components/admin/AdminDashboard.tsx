@@ -31,14 +31,16 @@ const AdminDashboard = () => {
 
   const fetchAdminUsers = async () => {
     try {
+      // Use raw query since types aren't updated yet
       const { data, error } = await supabase
-        .from('admin_users')
+        .from('admin_users' as any)
         .select('*')
         .order('created_at', { ascending: false });
 
       if (error) throw error;
       setAdminUsers(data || []);
     } catch (error: any) {
+      console.error('Error fetching admin users:', error);
       toast({
         title: "Error fetching admin users",
         description: error.message,
@@ -65,7 +67,7 @@ const AdminDashboard = () => {
       if (authData.user) {
         // Add to admin_users table
         const { error: adminError } = await supabase
-          .from('admin_users')
+          .from('admin_users' as any)
           .insert({
             id: authData.user.id,
             email: newUserEmail,
@@ -84,6 +86,7 @@ const AdminDashboard = () => {
         fetchAdminUsers();
       }
     } catch (error: any) {
+      console.error('Error creating admin user:', error);
       toast({
         title: "Error creating admin user",
         description: error.message,
@@ -97,7 +100,7 @@ const AdminDashboard = () => {
 
     try {
       const { error } = await supabase
-        .from('admin_users')
+        .from('admin_users' as any)
         .delete()
         .eq('id', userId);
 
@@ -110,6 +113,7 @@ const AdminDashboard = () => {
 
       fetchAdminUsers();
     } catch (error: any) {
+      console.error('Error deleting admin user:', error);
       toast({
         title: "Error deleting admin user",
         description: error.message,

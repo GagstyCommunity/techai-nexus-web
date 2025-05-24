@@ -9,6 +9,33 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      admin_users: {
+        Row: {
+          created_at: string | null
+          email: string
+          id: string
+          last_login: string | null
+          role: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          email: string
+          id?: string
+          last_login?: string | null
+          role?: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          email?: string
+          id?: string
+          last_login?: string | null
+          role?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       articles: {
         Row: {
           author_avatar: string | null
@@ -146,6 +173,39 @@ export type Database = {
           testimonial_position?: string | null
           testimonial_quote?: string | null
           title?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      newsletter_subscriptions: {
+        Row: {
+          created_at: string | null
+          email: string
+          id: string
+          preferences: string[] | null
+          source: string
+          status: string
+          subscribed_at: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          email: string
+          id?: string
+          preferences?: string[] | null
+          source: string
+          status?: string
+          subscribed_at?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          email?: string
+          id?: string
+          preferences?: string[] | null
+          source?: string
+          status?: string
+          subscribed_at?: string | null
           updated_at?: string | null
         }
         Relationships: []

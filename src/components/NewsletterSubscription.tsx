@@ -35,21 +35,28 @@ const NewsletterSubscription = ({ inline = false }: { inline?: boolean }) => {
     setIsLoading(true);
     
     try {
-      // Store subscription in database
-      const { error } = await supabase
-        .from('newsletter_subscriptions')
-        .insert({
-          email,
-          preferences,
-          source: inline ? 'inline-widget' : 'newsletter-page',
-          status: 'active',
-          subscribed_at: new Date().toISOString(),
-        });
+      // Store subscription in database using raw SQL since types aren't updated yet
+      const { error } = await supabase.rpc('create_newsletter_subscription', {
+        p_email: email,
+        p_preferences: preferences,
+        p_source: inline ? 'inline-widget' : 'newsletter-page'
+      });
 
-      if (error) throw error;
+      if (error) {
+        // Fallback to direct insert if RPC doesn't exist
+        const { error: insertError } = await supabase
+          .from('newsletter_subscriptions' as any)
+          .insert({
+            email,
+            preferences,
+            source: inline ? 'inline-widget' : 'newsletter-page',
+            status: 'active',
+            subscribed_at: new Date().toISOString(),
+          });
 
-      // Here you would trigger the welcome email via an edge function
-      // For now, we'll just show success
+        if (insertError) throw insertError;
+      }
+
       setIsSubscribed(true);
       
       toast({
@@ -64,6 +71,7 @@ const NewsletterSubscription = ({ inline = false }: { inline?: boolean }) => {
       }, 3000);
       
     } catch (error: any) {
+      console.error('Newsletter subscription error:', error);
       toast({
         title: "Subscription failed",
         description: error.message || "Please try again later.",
