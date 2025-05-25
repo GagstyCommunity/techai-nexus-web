@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
@@ -9,6 +8,8 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+
+type ContentStatus = 'draft' | 'published' | 'archived';
 
 const CaseStudyForm = () => {
   const navigate = useNavigate();
@@ -33,7 +34,7 @@ const CaseStudyForm = () => {
     technologies: [] as string[],
     meta_title: '',
     meta_description: '',
-    status: 'draft' as const,
+    status: 'draft' as ContentStatus,
     content: null as any,
     results: null as any
   });
@@ -73,7 +74,7 @@ const CaseStudyForm = () => {
         technologies: data.technologies || [],
         meta_title: data.meta_title || '',
         meta_description: data.meta_description || '',
-        status: data.status || 'draft',
+        status: (data.status || 'draft') as ContentStatus,
         content: data.content,
         results: data.results
       });
@@ -236,7 +237,7 @@ const CaseStudyForm = () => {
 
             <div>
               <Label htmlFor="status" className="text-gray-300">Status</Label>
-              <Select value={formData.status} onValueChange={(value: any) => setFormData({ ...formData, status: value })}>
+              <Select value={formData.status} onValueChange={(value: ContentStatus) => setFormData({ ...formData, status: value })}>
                 <SelectTrigger className="bg-gray-700 border-gray-600 text-white">
                   <SelectValue />
                 </SelectTrigger>

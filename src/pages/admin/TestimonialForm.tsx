@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
@@ -10,6 +9,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
+
+type ContentStatus = 'draft' | 'published' | 'archived';
 
 const TestimonialForm = () => {
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ const TestimonialForm = () => {
     project_type: '',
     rating: 5,
     featured: false,
-    status: 'draft' as const
+    status: 'draft' as ContentStatus
   });
 
   const [loading, setLoading] = useState(false);
@@ -54,7 +55,7 @@ const TestimonialForm = () => {
         project_type: data.project_type || '',
         rating: data.rating || 5,
         featured: data.featured || false,
-        status: data.status || 'draft'
+        status: (data.status || 'draft') as ContentStatus
       });
     } catch (error: any) {
       toast({
@@ -209,7 +210,7 @@ const TestimonialForm = () => {
 
               <div>
                 <Label htmlFor="status" className="text-gray-300">Status</Label>
-                <Select value={formData.status} onValueChange={(value: any) => setFormData({ ...formData, status: value })}>
+                <Select value={formData.status} onValueChange={(value: ContentStatus) => setFormData({ ...formData, status: value })}>
                   <SelectTrigger className="bg-gray-700 border-gray-600 text-white">
                     <SelectValue />
                   </SelectTrigger>

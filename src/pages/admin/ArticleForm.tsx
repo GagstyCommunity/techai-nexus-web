@@ -10,6 +10,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
+type ContentStatus = 'draft' | 'published' | 'archived';
+
 const ArticleForm = () => {
   const navigate = useNavigate();
   const { id } = useParams();
@@ -26,7 +28,7 @@ const ArticleForm = () => {
     tags: [] as string[],
     meta_title: '',
     meta_description: '',
-    status: 'draft' as const,
+    status: 'draft' as ContentStatus,
     content: null as any
   });
 
@@ -58,7 +60,7 @@ const ArticleForm = () => {
         tags: data.tags || [],
         meta_title: data.meta_title || '',
         meta_description: data.meta_description || '',
-        status: data.status || 'draft',
+        status: (data.status || 'draft') as ContentStatus,
         content: data.content
       });
     } catch (error: any) {
@@ -198,7 +200,7 @@ const ArticleForm = () => {
 
               <div>
                 <Label htmlFor="status" className="text-gray-300">Status</Label>
-                <Select value={formData.status} onValueChange={(value: any) => setFormData({ ...formData, status: value })}>
+                <Select value={formData.status} onValueChange={(value: ContentStatus) => setFormData({ ...formData, status: value })}>
                   <SelectTrigger className="bg-gray-700 border-gray-600 text-white">
                     <SelectValue />
                   </SelectTrigger>
