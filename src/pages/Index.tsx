@@ -85,7 +85,7 @@ const Index = () => {
         
         <SmoothScrollAnimations animation="fade-up" delay={1400}>
           <div className="section-container py-12">
-            <NewsletterSubscription inline={true} />
+            <NewsletterSubscription />
           </div>
         </SmoothScrollAnimations>
         

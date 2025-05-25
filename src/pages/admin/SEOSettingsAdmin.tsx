@@ -20,10 +20,10 @@ const SEOSettingsAdmin = () => {
 
       if (error) throw error;
       // Add status field for ContentList compatibility
-      const settingsWithStatus = (data || []).map(setting => ({
+      const settingsWithStatus = data ? data.map(setting => ({
         ...setting,
         status: 'published' as const
-      }));
+      })) : [];
       setSeoSettings(settingsWithStatus);
     } catch (error: any) {
       toast({
