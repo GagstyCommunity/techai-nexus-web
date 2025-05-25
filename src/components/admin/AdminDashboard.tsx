@@ -76,14 +76,14 @@ const AdminDashboard = () => {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
-        <p className="text-gray-500">Manage admin users and system access</p>
+        <h1 className="text-3xl font-bold text-white">Admin Dashboard</h1>
+        <p className="text-gray-300">Manage admin users and system access</p>
       </div>
 
       <Tabs defaultValue="users" className="space-y-4">
-        <TabsList>
-          <TabsTrigger value="users">Admin Users</TabsTrigger>
-          <TabsTrigger value="create">Create User</TabsTrigger>
+        <TabsList className="bg-gray-800 border-gray-700">
+          <TabsTrigger value="users" className="data-[state=active]:bg-accent data-[state=active]:text-white">Admin Users</TabsTrigger>
+          <TabsTrigger value="create" className="data-[state=active]:bg-accent data-[state=active]:text-white">Create User</TabsTrigger>
         </TabsList>
 
         <TabsContent value="users">

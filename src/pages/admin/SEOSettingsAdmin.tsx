@@ -16,14 +16,19 @@ const SEOSettingsAdmin = () => {
       const { data, error } = await supabase
         .from('seo_settings')
         .select('id, page_type as title, created_at, updated_at')
-        .order('created_at', { ascending: false });
+        .order('updated_at', { ascending: false });
 
       if (error) throw error;
-      // Add status field for ContentList compatibility
-      const settingsWithStatus = data ? data.map(setting => ({
-        ...setting,
+      
+      // Add status field for ContentList compatibility and ensure proper typing
+      const settingsWithStatus = (data || []).map((setting: any) => ({
+        id: setting.id,
+        title: setting.title,
+        created_at: setting.created_at,
+        updated_at: setting.updated_at,
         status: 'published' as const
-      })) : [];
+      }));
+      
       setSeoSettings(settingsWithStatus);
     } catch (error: any) {
       toast({

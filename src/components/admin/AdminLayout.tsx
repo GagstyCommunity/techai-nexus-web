@@ -43,7 +43,7 @@ const AdminLayout = () => {
                   <Link
                     key={item.href}
                     to={item.href}
-                    className={`px-3 py-2 rounded-md text-sm font-medium ${
+                    className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                       location.pathname === item.href
                         ? 'bg-accent text-white'
                         : 'text-gray-300 hover:text-white hover:bg-gray-700'
@@ -55,13 +55,16 @@ const AdminLayout = () => {
               </div>
             </div>
             <div className="flex items-center space-x-4">
-              <Link to="/" className="text-sm text-gray-300 hover:text-white">
+              <Link 
+                to="/" 
+                className="text-sm text-gray-300 hover:text-white transition-colors"
+              >
                 View Site
               </Link>
               <Button 
                 variant="outline" 
                 onClick={handleSignOut}
-                className="border-gray-600 text-gray-300 hover:bg-gray-700 hover:text-white"
+                className="border-gray-600 text-gray-300 hover:bg-gray-700 hover:text-white transition-colors"
               >
                 Sign Out
               </Button>
