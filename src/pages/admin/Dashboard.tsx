@@ -49,53 +49,53 @@ const Dashboard = () => {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
-        <p className="text-gray-500">Overview of your content management system</p>
+        <h1 className="text-3xl font-bold text-white">Dashboard</h1>
+        <p className="text-gray-300">Overview of your content management system</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {statCards.map((stat) => (
-          <Card key={stat.title}>
+          <Card key={stat.title} className="bg-gray-800 border-gray-700">
             <CardHeader className="pb-2">
-              <CardDescription>{stat.title}</CardDescription>
-              <CardTitle className="text-3xl">{stat.value}</CardTitle>
+              <CardDescription className="text-gray-400">{stat.title}</CardDescription>
+              <CardTitle className="text-3xl text-white">{stat.value}</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-gray-500">{stat.description}</p>
+              <p className="text-sm text-gray-300">{stat.description}</p>
             </CardContent>
           </Card>
         ))}
       </div>
 
-      <Card>
+      <Card className="bg-gray-800 border-gray-700">
         <CardHeader>
-          <CardTitle>Quick Actions</CardTitle>
-          <CardDescription>Common tasks to manage your content</CardDescription>
+          <CardTitle className="text-white">Quick Actions</CardTitle>
+          <CardDescription className="text-gray-400">Common tasks to manage your content</CardDescription>
         </CardHeader>
         <CardContent className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <a href="/admin/services" className="p-4 border rounded-lg hover:bg-gray-50">
-            <h3 className="font-medium">Manage Services</h3>
-            <p className="text-sm text-gray-500">Add, edit, or remove service offerings</p>
+          <a href="/admin/services" className="p-4 border border-gray-600 rounded-lg hover:bg-gray-700 hover:border-accent transition-colors">
+            <h3 className="font-medium text-white">Manage Services</h3>
+            <p className="text-sm text-gray-400">Add, edit, or remove service offerings</p>
           </a>
-          <a href="/admin/case-studies" className="p-4 border rounded-lg hover:bg-gray-50">
-            <h3 className="font-medium">Add Case Study</h3>
-            <p className="text-sm text-gray-500">Showcase your latest client work</p>
+          <a href="/admin/case-studies" className="p-4 border border-gray-600 rounded-lg hover:bg-gray-700 hover:border-accent transition-colors">
+            <h3 className="font-medium text-white">Add Case Study</h3>
+            <p className="text-sm text-gray-400">Showcase your latest client work</p>
           </a>
-          <a href="/admin/articles" className="p-4 border rounded-lg hover:bg-gray-50">
-            <h3 className="font-medium">Write Article</h3>
-            <p className="text-sm text-gray-500">Create new blog content</p>
+          <a href="/admin/articles" className="p-4 border border-gray-600 rounded-lg hover:bg-gray-700 hover:border-accent transition-colors">
+            <h3 className="font-medium text-white">Write Article</h3>
+            <p className="text-sm text-gray-400">Create new blog content</p>
           </a>
-          <a href="/admin/seo-settings" className="p-4 border rounded-lg hover:bg-gray-50">
-            <h3 className="font-medium">SEO Settings</h3>
-            <p className="text-sm text-gray-500">Optimize for search engines</p>
+          <a href="/admin/seo-settings" className="p-4 border border-gray-600 rounded-lg hover:bg-gray-700 hover:border-accent transition-colors">
+            <h3 className="font-medium text-white">SEO Settings</h3>
+            <p className="text-sm text-gray-400">Optimize for search engines</p>
           </a>
-          <a href="/admin/testimonials" className="p-4 border rounded-lg hover:bg-gray-50">
-            <h3 className="font-medium">Manage Testimonials</h3>
-            <p className="text-sm text-gray-500">Add client feedback and reviews</p>
+          <a href="/admin/testimonials" className="p-4 border border-gray-600 rounded-lg hover:bg-gray-700 hover:border-accent transition-colors">
+            <h3 className="font-medium text-white">Manage Testimonials</h3>
+            <p className="text-sm text-gray-400">Add client feedback and reviews</p>
           </a>
-          <a href="/admin/tool-logs" className="p-4 border rounded-lg hover:bg-gray-50">
-            <h3 className="font-medium">Analytics</h3>
-            <p className="text-sm text-gray-500">View tool usage and metrics</p>
+          <a href="/admin/tool-logs" className="p-4 border border-gray-600 rounded-lg hover:bg-gray-700 hover:border-accent transition-colors">
+            <h3 className="font-medium text-white">Analytics</h3>
+            <p className="text-sm text-gray-400">View tool usage and metrics</p>
           </a>
         </CardContent>
       </Card>

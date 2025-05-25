@@ -26,53 +26,53 @@ const ContentList = ({ title, items, onEdit, onDelete, onCreate, loading }: Cont
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'published':
-        return 'bg-green-100 text-green-800';
+        return 'bg-green-500 text-white hover:bg-green-600';
       case 'draft':
-        return 'bg-yellow-100 text-yellow-800';
+        return 'bg-yellow-500 text-white hover:bg-yellow-600';
       case 'archived':
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-gray-500 text-white hover:bg-gray-600';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-gray-500 text-white hover:bg-gray-600';
     }
   };
 
   if (loading) {
-    return <div className="text-center py-8">Loading...</div>;
+    return <div className="text-center py-8 text-white">Loading...</div>;
   }
 
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold text-gray-900">{title}</h1>
-        <Button onClick={onCreate} className="flex items-center gap-2">
+        <h1 className="text-3xl font-bold text-white">{title}</h1>
+        <Button onClick={onCreate} className="flex items-center gap-2 bg-accent hover:bg-accent-hover text-white">
           <Plus className="w-4 h-4" />
           Add New
         </Button>
       </div>
 
       {items.length === 0 ? (
-        <Card>
+        <Card className="bg-gray-800 border-gray-700">
           <CardContent className="text-center py-8">
-            <p className="text-gray-500">No items found. Create your first one!</p>
+            <p className="text-gray-300">No items found. Create your first one!</p>
           </CardContent>
         </Card>
       ) : (
         <div className="grid gap-4">
           {items.map((item) => (
-            <Card key={item.id}>
+            <Card key={item.id} className="bg-gray-800 border-gray-700 hover:border-accent transition-colors">
               <CardHeader className="pb-4">
                 <div className="flex justify-between items-start">
                   <div>
-                    <CardTitle className="text-lg">{item.title}</CardTitle>
+                    <CardTitle className="text-lg text-white">{item.title}</CardTitle>
                     <div className="flex items-center gap-4 mt-2">
                       <Badge className={getStatusColor(item.status)}>
                         {item.status}
                       </Badge>
-                      <span className="text-sm text-gray-500">
+                      <span className="text-sm text-gray-400">
                         Created: {new Date(item.created_at).toLocaleDateString()}
                       </span>
                       {item.updated_at && (
-                        <span className="text-sm text-gray-500">
+                        <span className="text-sm text-gray-400">
                           Updated: {new Date(item.updated_at).toLocaleDateString()}
                         </span>
                       )}
@@ -83,7 +83,7 @@ const ContentList = ({ title, items, onEdit, onDelete, onCreate, loading }: Cont
                       variant="outline"
                       size="sm"
                       onClick={() => onEdit(item.id)}
-                      className="flex items-center gap-1"
+                      className="flex items-center gap-1 border-gray-600 text-gray-300 hover:bg-gray-700 hover:text-white"
                     >
                       <Edit className="w-4 h-4" />
                       Edit
@@ -92,7 +92,7 @@ const ContentList = ({ title, items, onEdit, onDelete, onCreate, loading }: Cont
                       variant="destructive"
                       size="sm"
                       onClick={() => onDelete(item.id)}
-                      className="flex items-center gap-1"
+                      className="flex items-center gap-1 bg-red-600 hover:bg-red-700"
                     >
                       <Trash2 className="w-4 h-4" />
                       Delete

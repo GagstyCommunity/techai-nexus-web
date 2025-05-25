@@ -30,12 +30,12 @@ const AdminLayout = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <nav className="bg-white shadow-sm border-b">
+    <div className="min-h-screen bg-primary">
+      <nav className="bg-gray-800 shadow-sm border-b border-gray-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-8">
-              <Link to="/admin" className="text-xl font-bold text-gray-900">
+              <Link to="/admin" className="text-xl font-bold text-white">
                 TechAI Labs Admin
               </Link>
               <div className="hidden md:flex space-x-4">
@@ -45,8 +45,8 @@ const AdminLayout = () => {
                     to={item.href}
                     className={`px-3 py-2 rounded-md text-sm font-medium ${
                       location.pathname === item.href
-                        ? 'bg-gray-100 text-gray-900'
-                        : 'text-gray-500 hover:text-gray-700'
+                        ? 'bg-accent text-white'
+                        : 'text-gray-300 hover:text-white hover:bg-gray-700'
                     }`}
                   >
                     {item.label}
@@ -55,10 +55,14 @@ const AdminLayout = () => {
               </div>
             </div>
             <div className="flex items-center space-x-4">
-              <Link to="/" className="text-sm text-gray-500 hover:text-gray-700">
+              <Link to="/" className="text-sm text-gray-300 hover:text-white">
                 View Site
               </Link>
-              <Button variant="outline" onClick={handleSignOut}>
+              <Button 
+                variant="outline" 
+                onClick={handleSignOut}
+                className="border-gray-600 text-gray-300 hover:bg-gray-700 hover:text-white"
+              >
                 Sign Out
               </Button>
             </div>
