@@ -2,31 +2,36 @@
 import React, { useEffect, useState } from 'react';
 import Layout from '@/components/layout/Layout';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Card, CardContent } from '@/components/ui/card';
 import { supabase } from '@/integrations/supabase/client';
-import { Link } from 'react-router-dom';
+import { useSEO } from '@/hooks/useSEO';
+import { useToolLogger } from '@/hooks/useToolLogger';
+import SEOOptimizer from '@/components/SEOOptimizer';
 
 interface CaseStudy {
   id: string;
   title: string;
   slug: string;
-  client_name: string;
   description: string;
+  client_name: string;
+  client_logo: string;
+  industry: string;
+  technologies: string[];
+  featured_image: string;
   challenge: string;
   solution: string;
   results: any;
-  technologies: string[];
-  industry: string;
-  featured_image: string;
-  meta_title: string;
-  meta_description: string;
+  status: string;
 }
 
 const CaseStudies = () => {
   const [caseStudies, setCaseStudies] = useState<CaseStudy[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { seoData } = useSEO('case-studies');
+  
+  useToolLogger('case_studies_page', 'view');
 
   useEffect(() => {
     const fetchCaseStudies = async () => {
@@ -59,192 +64,228 @@ const CaseStudies = () => {
   const getDefaultCaseStudies = (): CaseStudy[] => [
     {
       id: '1',
-      title: 'AI-Powered Customer Service Automation',
-      slug: 'ai-customer-service-automation',
-      client_name: 'TechCorp Inc.',
-      description: 'Implementing AI automation to transform customer service operations',
-      challenge: 'Manual customer service processes leading to long response times and inconsistent service quality',
-      solution: 'Developed an AI-powered automation system with chatbots and intelligent routing',
+      title: "E-commerce AI Automation",
+      slug: "ecommerce-ai-automation",
+      description: "Automated customer support and inventory management for online retailer",
+      client_name: "RetailTech Solutions",
+      client_logo: "",
+      industry: "E-commerce",
+      technologies: ["OpenAI", "n8n", "Shopify API", "Python"],
+      featured_image: "",
+      challenge: "Manual customer support was overwhelming the team with 500+ daily inquiries",
+      solution: "Implemented AI chatbot with inventory integration and automated order processing",
       results: {
-        response_time: '85% reduction',
-        customer_satisfaction: '95% positive',
-        cost_savings: '60% reduction in operational costs'
+        metrics: [
+          "85% reduction in support tickets",
+          "24/7 customer service availability",
+          "40% increase in customer satisfaction"
+        ]
       },
-      technologies: ['OpenAI', 'Python', 'Node.js', 'React'],
-      industry: 'Technology',
-      featured_image: '',
-      meta_title: 'AI Customer Service Automation Case Study',
-      meta_description: 'How we helped TechCorp reduce response times by 85% with AI automation'
+      status: "published"
     },
     {
-      id: '2',
-      title: 'Web3 Marketplace Development',
-      slug: 'web3-marketplace-development',
-      client_name: 'CryptoTrade Ltd',
-      description: 'Building a decentralized marketplace for digital assets',
-      challenge: 'Need for a secure, scalable platform for trading digital assets',
-      solution: 'Created a Web3-powered marketplace with smart contracts and user-friendly interface',
+      id: '2', 
+      title: "SaaS Lead Generation Automation",
+      slug: "saas-lead-generation",
+      description: "Automated lead qualification and nurturing system for B2B SaaS company",
+      client_name: "CloudSync Pro",
+      client_logo: "",
+      industry: "SaaS",
+      technologies: ["Zapier", "HubSpot API", "OpenAI", "Airtable"],
+      featured_image: "",
+      challenge: "Low conversion rates and manual lead qualification process",
+      solution: "Built intelligent lead scoring system with automated email sequences",
       results: {
-        transactions: '100,000+ monthly',
-        user_growth: '300% in first quarter',
-        platform_security: 'Zero security incidents'
+        metrics: [
+          "300% increase in qualified leads",
+          "60% reduction in sales cycle",
+          "2x improvement in conversion rates"
+        ]
       },
-      technologies: ['Solidity', 'React', 'Node.js', 'Web3.js'],
-      industry: 'Blockchain',
-      featured_image: '',
-      meta_title: 'Web3 Marketplace Development Case Study',
-      meta_description: 'How we built a secure Web3 marketplace handling 100,000+ monthly transactions'
+      status: "published"
     },
     {
       id: '3',
-      title: 'SaaS Platform Scaling with AI',
-      slug: 'saas-platform-scaling',
-      client_name: 'GrowthTech Solutions',
-      description: 'Scaling a SaaS platform to handle 10x user growth with AI automation',
-      challenge: 'Rapid user growth overwhelming manual processes and support systems',
-      solution: 'Implemented AI-driven automation for onboarding, support, and user management',
+      title: "DeFi Protocol Development", 
+      slug: "defi-protocol-development",
+      description: "Custom DeFi yield farming protocol on Ethereum",
+      client_name: "YieldMax Finance",
+      client_logo: "",
+      industry: "DeFi",
+      technologies: ["Solidity", "Web3.js", "React", "Ethereum"],
+      featured_image: "",
+      challenge: "Complex yield farming strategies needed automation and security",
+      solution: "Developed smart contracts with automated yield optimization",
       results: {
-        user_capacity: '10x increase',
-        automation_rate: '90% of processes automated',
-        support_efficiency: '75% faster resolution times'
+        metrics: [
+          "$10M+ TVL achieved",
+          "99.9% uptime maintained",
+          "50+ integrations completed"
+        ]
       },
-      technologies: ['OpenAI', 'Python', 'PostgreSQL', 'React', 'AWS'],
-      industry: 'SaaS',
-      featured_image: '',
-      meta_title: 'SaaS Platform Scaling Case Study',
-      meta_description: 'How we helped GrowthTech scale their platform to handle 10x more users'
+      status: "published"
     }
   ];
 
+  const defaultSEO = {
+    title: "Case Studies - TechAI Labs | Success Stories & Results",
+    description: "Explore our client success stories and see how we've helped businesses achieve their goals with AI automation, Web3 development, and more.",
+    keywords: ["case studies", "client success", "AI automation results", "Web3 projects"]
+  };
+
   return (
-    <Layout
-      title="Case Studies - TechAI Labs Success Stories"
-      description="Explore our client success stories and see how we've helped businesses transform with AI, Web3, and modern technology solutions."
-    >
-      {/* Hero Section */}
-      <section className="relative py-24 lg:py-32">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary via-gray-900 to-primary"></div>
-        <div className="relative section-container">
-          <div className="text-center max-w-4xl mx-auto">
-            <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
-              Client <span className="gradient-text">Success Stories</span>
-            </h1>
-            <p className="text-xl text-gray-300 mb-8">
-              Discover how we've helped businesses transform their operations and achieve 
-              remarkable results with our technology solutions.
-            </p>
+    <>
+      <SEOOptimizer
+        title={seoData?.meta_title || defaultSEO.title}
+        description={seoData?.meta_description || defaultSEO.description}
+        keywords={seoData?.meta_keywords || defaultSEO.keywords}
+        ogTitle={seoData?.og_title}
+        ogDescription={seoData?.og_description}
+        ogImage={seoData?.og_image}
+        twitterTitle={seoData?.twitter_title}
+        twitterDescription={seoData?.twitter_description}
+        twitterImage={seoData?.twitter_image}
+        canonicalUrl={seoData?.canonical_url}
+        robots={seoData?.robots_directive}
+        structuredData={seoData?.structured_data}
+      />
+      
+      <Layout
+        title={seoData?.meta_title || defaultSEO.title}
+        description={seoData?.meta_description || defaultSEO.description}
+      >
+        {/* Hero Section */}
+        <section className="relative py-24 lg:py-32">
+          <div className="absolute inset-0 bg-gradient-to-br from-primary via-gray-900 to-primary"></div>
+          <div className="relative section-container">
+            <div className="text-center max-w-4xl mx-auto">
+              <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
+                Success Stories That{' '}
+                <span className="gradient-text">Speak for Themselves</span>
+              </h1>
+              <p className="text-xl text-gray-300 mb-8">
+                Discover how we've helped businesses transform their operations and achieve remarkable results through innovative technology solutions.
+              </p>
+              <Button 
+                onClick={() => window.open('https://calendly.com/brain-techailabs/techailabs', '_blank')}
+                className="btn-primary text-lg px-8 py-4"
+              >
+                Start Your Success Story
+              </Button>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Case Studies Grid */}
-      <section className="py-24">
-        <div className="section-container">
-          {error && (
-            <div className="text-center py-4 mb-8">
-              <div className="text-yellow-400 text-sm">{error}</div>
-            </div>
-          )}
-
-          {loading ? (
-            <div className="text-center py-12">
-              <div className="text-xl text-white">Loading case studies...</div>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              {caseStudies.map((caseStudy) => (
-                <Card key={caseStudy.id} className="bg-gray-800/50 border-gray-700 hover:border-accent transition-all duration-300 group h-full">
-                  <CardHeader>
-                    <div className="flex justify-between items-start mb-4">
-                      <Badge variant="secondary" className="bg-accent/20 text-accent">
-                        {caseStudy.industry}
-                      </Badge>
-                      <span className="text-gray-400 text-sm">{caseStudy.client_name}</span>
-                    </div>
-                    <CardTitle className="text-white text-xl mb-2 group-hover:text-accent transition-colors">
-                      {caseStudy.title}
-                    </CardTitle>
-                    <p className="text-gray-300 text-sm">
-                      {caseStudy.description}
-                    </p>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-4">
-                      {/* Challenge */}
-                      <div>
-                        <h4 className="text-white font-semibold mb-2">Challenge:</h4>
-                        <p className="text-gray-400 text-sm">{caseStudy.challenge}</p>
-                      </div>
-
-                      {/* Results */}
-                      {caseStudy.results && (
-                        <div>
-                          <h4 className="text-white font-semibold mb-2">Key Results:</h4>
-                          <div className="grid grid-cols-1 gap-2">
-                            {Object.entries(caseStudy.results).map(([key, value]) => (
-                              <div key={key} className="flex justify-between items-center">
-                                <span className="text-gray-400 text-sm capitalize">
-                                  {key.replace('_', ' ')}:
-                                </span>
-                                <span className="text-accent font-semibold text-sm">{value}</span>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
+        {/* Case Studies Grid */}
+        <section className="py-24">
+          <div className="section-container">
+            {error && (
+              <div className="text-center py-4 mb-8">
+                <div className="text-yellow-400 text-sm">{error}</div>
+              </div>
+            )}
+            
+            {loading ? (
+              <div className="text-center py-12">
+                <div className="text-xl text-white">Loading case studies...</div>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {caseStudies.map((caseStudy) => (
+                  <Card key={caseStudy.id} className="bg-gray-800/50 border-gray-700/30 hover:border-accent/50 transition-all duration-300 group">
+                    <CardContent className="p-0">
+                      {caseStudy.featured_image && (
+                        <div className="aspect-video bg-gray-700 rounded-t-lg mb-6"></div>
                       )}
-
-                      {/* Technologies */}
-                      {caseStudy.technologies && (
-                        <div>
-                          <h4 className="text-white font-semibold mb-2">Technologies:</h4>
-                          <div className="flex flex-wrap gap-1">
-                            {caseStudy.technologies.map((tech, index) => (
-                              <Badge key={index} variant="outline" className="text-xs">
-                                {tech}
-                              </Badge>
-                            ))}
-                          </div>
+                      <div className="p-6">
+                        <div className="flex items-center justify-between mb-4">
+                          <Badge variant="secondary" className="bg-accent/20 text-accent border-accent/30">
+                            {caseStudy.industry}
+                          </Badge>
+                          {caseStudy.client_name && (
+                            <span className="text-sm text-gray-400">{caseStudy.client_name}</span>
+                          )}
                         </div>
-                      )}
+                        
+                        <h3 className="text-xl font-bold text-white mb-3 group-hover:text-accent transition-colors">
+                          {caseStudy.title}
+                        </h3>
+                        
+                        <p className="text-gray-300 mb-4">
+                          {caseStudy.description}
+                        </p>
 
-                      <div className="pt-4">
-                        <Link 
-                          to={`/case-studies/${caseStudy.slug}`}
-                          className="inline-flex items-center text-accent hover:text-orange-400 transition-colors font-medium text-sm"
+                        <div className="mb-4">
+                          <h4 className="text-sm font-semibold text-white mb-2">Challenge:</h4>
+                          <p className="text-sm text-gray-400">{caseStudy.challenge}</p>
+                        </div>
+
+                        {caseStudy.results?.metrics && (
+                          <div className="mb-6">
+                            <h4 className="text-sm font-semibold text-white mb-2">Results:</h4>
+                            <ul className="space-y-1">
+                              {caseStudy.results.metrics.map((metric: string, index: number) => (
+                                <li key={index} className="text-sm text-accent flex items-start">
+                                  <span className="w-1 h-1 bg-accent rounded-full mt-2 mr-2 flex-shrink-0"></span>
+                                  {metric}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+
+                        {caseStudy.technologies && caseStudy.technologies.length > 0 && (
+                          <div className="mb-6">
+                            <div className="flex flex-wrap gap-2">
+                              {caseStudy.technologies.slice(0, 3).map((tech, index) => (
+                                <Badge key={index} variant="outline" className="text-xs border-gray-600 text-gray-400">
+                                  {tech}
+                                </Badge>
+                              ))}
+                              {caseStudy.technologies.length > 3 && (
+                                <Badge variant="outline" className="text-xs border-gray-600 text-gray-400">
+                                  +{caseStudy.technologies.length - 3} more
+                                </Badge>
+                              )}
+                            </div>
+                          </div>
+                        )}
+
+                        <Button 
+                          variant="outline" 
+                          className="w-full border-accent/30 text-accent hover:bg-accent hover:text-white"
+                          onClick={() => window.open('https://calendly.com/brain-techailabs/techailabs', '_blank')}
                         >
-                          Read Full Case Study
-                          <svg className="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                          </svg>
-                        </Link>
+                          Get Similar Results
+                        </Button>
                       </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          )}
-        </div>
-      </section>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            )}
+          </div>
+        </section>
 
-      {/* CTA Section */}
-      <section className="py-24 bg-gray-900/30">
-        <div className="section-container text-center">
-          <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">
-            Ready to Be Our Next Success Story?
-          </h2>
-          <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-            Let's discuss your project and create a solution that drives real results for your business.
-          </p>
-          <Button 
-            onClick={() => window.open('https://calendly.com/brain-techailabs/techailabs', '_blank')}
-            className="btn-primary text-lg px-8 py-4"
-          >
-            Start Your Project
-          </Button>
-        </div>
-      </section>
-    </Layout>
+        {/* CTA Section */}
+        <section className="py-24 bg-gray-900/30">
+          <div className="section-container text-center">
+            <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">
+              Ready to Create Your Success Story?
+            </h2>
+            <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+              Let's discuss your project and explore how we can help you achieve similar results.
+            </p>
+            <Button 
+              onClick={() => window.open('https://calendly.com/brain-techailabs/techailabs', '_blank')}
+              className="btn-primary text-lg px-8 py-4"
+            >
+              Book Strategy Call
+            </Button>
+          </div>
+        </section>
+      </Layout>
+    </>
   );
 };
 

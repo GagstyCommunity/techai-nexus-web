@@ -105,26 +105,26 @@ const AdminAuth = ({ children }: AdminAuthProps) => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-lg">Loading...</div>
+      <div className="min-h-screen flex items-center justify-center bg-primary">
+        <div className="text-lg text-white">Loading...</div>
       </div>
     );
   }
 
   if (!user) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <Card className="w-full max-w-md">
+      <div className="min-h-screen flex items-center justify-center bg-primary">
+        <Card className="w-full max-w-md bg-gray-800 border-gray-700">
           <CardHeader>
-            <CardTitle>TechAI Labs Admin</CardTitle>
-            <CardDescription>
+            <CardTitle className="text-white">TechAI Labs Admin</CardTitle>
+            <CardDescription className="text-gray-300">
               Sign in to access the admin panel
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-              <h4 className="font-medium text-blue-900 mb-2">Demo Credentials</h4>
-              <p className="text-sm text-blue-700 mb-2">
+            <div className="bg-accent/10 border border-accent/30 rounded-lg p-4">
+              <h4 className="font-medium text-accent mb-2">Demo Credentials</h4>
+              <p className="text-sm text-gray-300 mb-2">
                 Email: {demoCredentials.email}<br />
                 Password: {demoCredentials.password}
               </p>
@@ -132,7 +132,7 @@ const AdminAuth = ({ children }: AdminAuthProps) => {
                 variant="outline" 
                 size="sm" 
                 onClick={fillDemoCredentials}
-                className="w-full"
+                className="w-full border-accent/30 text-accent hover:bg-accent hover:text-white"
               >
                 Use Demo Credentials
               </Button>
@@ -145,6 +145,7 @@ const AdminAuth = ({ children }: AdminAuthProps) => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
+                className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-accent"
               />
               <Input
                 type="password"
@@ -152,8 +153,9 @@ const AdminAuth = ({ children }: AdminAuthProps) => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
+                className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-accent"
               />
-              <Button type="submit" className="w-full" disabled={authLoading}>
+              <Button type="submit" className="w-full bg-accent hover:bg-accent-hover text-white" disabled={authLoading}>
                 {authLoading ? 'Signing In...' : 'Sign In'}
               </Button>
             </form>
@@ -165,13 +167,20 @@ const AdminAuth = ({ children }: AdminAuthProps) => {
 
   return (
     <div>
-      <div className="bg-gray-800 text-white p-4 flex justify-between items-center">
+      <div className="bg-gray-800 text-white p-4 flex justify-between items-center border-b border-gray-700">
         <span>Welcome, {user.email}</span>
-        <Button variant="outline" size="sm" onClick={handleSignOut}>
+        <Button 
+          variant="outline" 
+          size="sm" 
+          onClick={handleSignOut}
+          className="border-gray-600 text-gray-300 hover:bg-gray-700 hover:text-white"
+        >
           Sign Out
         </Button>
       </div>
-      {children}
+      <div className="bg-primary min-h-screen">
+        {children}
+      </div>
     </div>
   );
 };

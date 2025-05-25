@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import Layout from '@/components/layout/Layout';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -22,9 +22,30 @@ interface Service {
   meta_description: string;
 }
 
+interface CaseStudy {
+  id: string;
+  title: string;
+  slug: string;
+  description: string;
+  industry: string;
+  featured_image: string;
+}
+
+interface Article {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string;
+  featured_image: string;
+  read_time: number;
+}
+
 const ServiceDetail = () => {
   const { slug } = useParams<{ slug: string }>();
   const [service, setService] = useState<Service | null>(null);
+  const [relatedCaseStudies, setRelatedCaseStudies] = useState<CaseStudy[]>([]);
+  const [relatedArticles, setRelatedArticles] = useState<Article[]>([]);
+  const [relatedServices, setRelatedServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -46,7 +67,6 @@ const ServiceDetail = () => {
 
         if (error) {
           console.error('Supabase error:', error);
-          // Fall back to default service data based on slug
           const defaultService = getDefaultServiceBySlug(slug);
           if (defaultService) {
             setService(defaultService);
@@ -57,9 +77,11 @@ const ServiceDetail = () => {
         } else {
           setService(data);
         }
+
+        // Fetch related content
+        await fetchRelatedContent(slug);
       } catch (error) {
         console.error('Error fetching service:', error);
-        // Fall back to default service data
         const defaultService = getDefaultServiceBySlug(slug);
         if (defaultService) {
           setService(defaultService);
@@ -67,6 +89,7 @@ const ServiceDetail = () => {
         } else {
           setError('Service not found');
         }
+        await fetchRelatedContent(slug);
       } finally {
         setLoading(false);
       }
@@ -75,44 +98,30 @@ const ServiceDetail = () => {
     fetchService();
   }, [slug]);
 
+  const fetchRelatedContent = async (serviceSlug: string) => {
+    // Set default related content based on service type
+    setRelatedCaseStudies(getDefaultCaseStudies(serviceSlug));
+    setRelatedArticles(getDefaultArticles(serviceSlug));
+    setRelatedServices(getDefaultRelatedServices(serviceSlug));
+  };
+
   const getDefaultServiceBySlug = (slug: string): Service | null => {
     const defaultServices: Record<string, Service> = {
-      'ai-tools': {
-        id: '1',
-        title: "AI Tool Development",
-        slug: "ai-tools",
-        description: "We specialize in creating custom AI solutions that transform how businesses operate. Our AI tools are designed to integrate seamlessly with your existing workflows, providing intelligent automation and insights that drive real results.",
-        short_description: "Custom AI solutions, chatbots, and intelligent automation tools tailored to your business needs.",
-        features: [
-          "Custom AI Models trained on your data",
-          "Intelligent Chatbot Development",
-          "Machine Learning Integration",
-          "AI Strategy Consulting",
-          "Natural Language Processing",
-          "Computer Vision Solutions"
-        ],
-        technologies: ["OpenAI", "TensorFlow", "PyTorch", "Hugging Face", "LangChain", "Python", "Node.js"],
-        content: {},
-        pricing_info: {},
-        featured_image: "",
-        meta_title: "AI Tool Development Services - Custom AI Solutions",
-        meta_description: "Professional AI tool development services. Custom chatbots, machine learning models, and intelligent automation solutions."
-      },
       'ai-automation': {
-        id: '2',
-        title: "AI Automation",
+        id: '1',
+        title: "Automate Your Business with AI",
         slug: "ai-automation",
-        description: "Streamline your business processes with intelligent automation. We help you identify repetitive tasks and transform them into automated workflows that save time, reduce errors, and scale your operations efficiently.",
+        description: "Transform manual processes into intelligent, automated workflows that save time, reduce costs, and scale your operations effortlessly. Our AI automation solutions integrate seamlessly with your existing systems to deliver measurable results.",
         short_description: "Streamline your workflows with intelligent automation for SaaS, CRM, and business processes.",
         features: [
-          "Process Automation & Optimization",
-          "Lead Generation Automation",
-          "CRM Integration & Management",
-          "Workflow Optimization",
-          "Data Processing Automation",
-          "Customer Support Automation"
+          "Lead Generation Bots - Automatically capture and qualify leads 24/7",
+          "CRM Automation - Sync data, update records, and trigger actions automatically",
+          "Data Scraping & Analysis - Extract insights from web data at scale",
+          "Email Outreach Automation - Personalized campaigns that convert",
+          "Customer Support AI - Intelligent chatbots that resolve issues instantly",
+          "Sales Process Automation - Streamline your entire sales funnel"
         ],
-        technologies: ["n8n", "Zapier", "Make.com", "Python", "Node.js", "Airtable", "OpenAI API"],
+        technologies: ["n8n", "Zapier", "OpenAI", "Python", "Make.com", "Airtable", "Node.js", "Custom AI Models"],
         content: {},
         pricing_info: {},
         featured_image: "",
@@ -208,6 +217,65 @@ const ServiceDetail = () => {
     return defaultServices[slug] || null;
   };
 
+  const getDefaultCaseStudies = (serviceSlug: string): CaseStudy[] => {
+    const caseStudyMap: Record<string, CaseStudy[]> = {
+      'ai-automation': [
+        {
+          id: '1',
+          title: "E-commerce AI Automation",
+          slug: "ecommerce-ai-automation", 
+          description: "Automated customer support and inventory management resulting in 85% reduction in support tickets",
+          industry: "E-commerce",
+          featured_image: ""
+        },
+        {
+          id: '2',
+          title: "SaaS Lead Generation Automation",
+          slug: "saas-lead-generation",
+          description: "Intelligent lead scoring system increased qualified leads by 300%",
+          industry: "SaaS", 
+          featured_image: ""
+        }
+      ]
+    };
+    return caseStudyMap[serviceSlug] || [];
+  };
+
+  const getDefaultArticles = (serviceSlug: string): Article[] => {
+    const articleMap: Record<string, Article[]> = {
+      'ai-automation': [
+        {
+          id: '1',
+          title: "Complete Guide to AI Business Automation",
+          slug: "ai-business-automation-guide",
+          excerpt: "Learn how to identify automation opportunities and implement AI solutions that deliver ROI",
+          featured_image: "",
+          read_time: 8
+        },
+        {
+          id: '2', 
+          title: "ROI Calculator: AI Automation for Your Business",
+          slug: "ai-automation-roi-calculator",
+          excerpt: "Calculate potential savings and returns from implementing AI automation in your workflows",
+          featured_image: "",
+          read_time: 5
+        }
+      ]
+    };
+    return articleMap[serviceSlug] || [];
+  };
+
+  const getDefaultRelatedServices = (serviceSlug: string): Service[] => {
+    const allServices = [
+      { id: '1', title: "AI Tool Development", slug: "ai-tools", description: "Custom AI solutions and chatbots", short_description: "", features: [], technologies: [], content: {}, pricing_info: {}, featured_image: "", meta_title: "", meta_description: "" },
+      { id: '2', title: "Web3 Development", slug: "web3", description: "Blockchain and DeFi solutions", short_description: "", features: [], technologies: [], content: {}, pricing_info: {}, featured_image: "", meta_title: "", meta_description: "" },
+      { id: '3', title: "Website & App Development", slug: "web-development", description: "Modern web and mobile applications", short_description: "", features: [], technologies: [], content: {}, pricing_info: {}, featured_image: "", meta_title: "", meta_description: "" },
+      { id: '4', title: "DevOps & Infrastructure", slug: "devops", description: "Scalable cloud infrastructure", short_description: "", features: [], technologies: [], content: {}, pricing_info: {}, featured_image: "", meta_title: "", meta_description: "" }
+    ];
+    
+    return allServices.filter(s => s.slug !== serviceSlug).slice(0, 3);
+  };
+
   if (loading) {
     return (
       <Layout>
@@ -232,6 +300,15 @@ const ServiceDetail = () => {
     );
   }
 
+  const benefits = [
+    "Reduce manual tasks by up to 85%",
+    "24/7 automated customer support", 
+    "Increase lead generation by 300%",
+    "Improve data accuracy by eliminating human error",
+    "Scale operations without proportional staff increases",
+    "Real-time analytics and reporting"
+  ];
+
   return (
     <Layout
       title={service.meta_title || service.title}
@@ -243,7 +320,7 @@ const ServiceDetail = () => {
         </div>
       )}
       
-      {/* Hero Section */}
+      {/* Service Intro Hero */}
       <section className="py-24 lg:py-32">
         <div className="section-container">
           <div className="max-w-4xl mx-auto text-center">
@@ -251,7 +328,7 @@ const ServiceDetail = () => {
               {service.title}
             </h1>
             <p className="text-xl text-gray-300 mb-8">
-              {service.short_description}
+              {service.description}
             </p>
             <Button 
               onClick={() => window.open('https://calendly.com/brain-techailabs/techailabs', '_blank')}
@@ -263,68 +340,164 @@ const ServiceDetail = () => {
         </div>
       </section>
 
-      {/* Service Details */}
+      {/* What's Included */}
       <section className="py-16">
         <div className="section-container">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            {/* Description */}
-            <div>
-              <h2 className="text-3xl font-bold text-white mb-6">About This Service</h2>
-              <p className="text-gray-300 text-lg leading-relaxed mb-8">
-                {service.description}
-              </p>
-
-              {/* Features */}
-              {service.features && service.features.length > 0 && (
-                <div className="mb-8">
-                  <h3 className="text-2xl font-bold text-white mb-4">Key Features</h3>
-                  <ul className="space-y-3">
-                    {service.features.map((feature, index) => (
-                      <li key={index} className="flex items-start text-gray-300">
-                        <span className="w-2 h-2 bg-accent rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-            </div>
-
-            {/* Technologies & Pricing */}
-            <div className="space-y-8">
-              {/* Technologies */}
-              {service.technologies && service.technologies.length > 0 && (
-                <Card className="bg-white/5 border-gray-700/30">
-                  <CardContent className="p-6">
-                    <h3 className="text-2xl font-bold text-white mb-4">Technologies We Use</h3>
-                    <div className="flex flex-wrap gap-2">
-                      {service.technologies.map((tech, index) => (
-                        <Badge key={index} variant="secondary" className="bg-accent/20 text-accent border-accent/30">
-                          {tech}
-                        </Badge>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-              )}
-
-              {/* CTA Card */}
-              <Card className="bg-gradient-to-br from-accent/10 to-accent-hover/10 border-accent/30">
-                <CardContent className="p-6 text-center">
-                  <h3 className="text-xl font-bold text-white mb-4">Ready to Get Started?</h3>
-                  <p className="text-gray-300 mb-6">
-                    Let's discuss your project and see how we can help you achieve your goals.
-                  </p>
-                  <Button 
-                    onClick={() => window.open('https://calendly.com/brain-techailabs/techailabs', '_blank')}
-                    className="btn-primary w-full"
-                  >
-                    Book Free Consultation
-                  </Button>
+          <h2 className="text-3xl md:text-5xl font-bold text-white mb-12 text-center">
+            What's <span className="gradient-text">Included</span>
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {service.features.map((feature, index) => (
+              <Card key={index} className="bg-gray-800/50 border-gray-700/30 hover:border-accent/50 transition-all duration-300">
+                <CardContent className="p-6">
+                  <div className="text-2xl mb-4">🎯</div>
+                  <h3 className="text-lg font-semibold text-white mb-3">{feature}</h3>
                 </CardContent>
               </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Why It Matters */}
+      <section className="py-16 bg-gray-900/30">
+        <div className="section-container">
+          <h2 className="text-3xl md:text-5xl font-bold text-white mb-12 text-center">
+            Why It <span className="gradient-text">Matters</span>
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            {benefits.map((benefit, index) => (
+              <div key={index} className="flex items-start">
+                <span className="w-2 h-2 bg-accent rounded-full mr-3 mt-2 flex-shrink-0"></span>
+                <span className="text-gray-300 text-lg">{benefit}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Tools & Tech We Use */}
+      <section className="py-16">
+        <div className="section-container">
+          <h2 className="text-3xl md:text-5xl font-bold text-white mb-12 text-center">
+            Tools & Tech <span className="gradient-text">We Use</span>
+          </h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 max-w-4xl mx-auto">
+            {service.technologies.map((tech, index) => (
+              <Card key={index} className="bg-gray-800/50 border-gray-700/30 hover:border-accent/50 transition-all duration-300">
+                <CardContent className="p-4 text-center">
+                  <span className="text-white font-medium text-sm">{tech}</span>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Related Work / Case Studies */}
+      {relatedCaseStudies.length > 0 && (
+        <section className="py-16 bg-gray-900/30">
+          <div className="section-container">
+            <h2 className="text-3xl md:text-5xl font-bold text-white mb-12 text-center">
+              Related <span className="gradient-text">Work</span>
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {relatedCaseStudies.map((caseStudy) => (
+                <Card key={caseStudy.id} className="bg-gray-800/50 border-gray-700/30 hover:border-accent/50 transition-all duration-300">
+                  <CardContent className="p-6">
+                    <Badge variant="secondary" className="bg-accent/20 text-accent border-accent/30 mb-4">
+                      {caseStudy.industry}
+                    </Badge>
+                    <h3 className="text-xl font-bold text-white mb-3">{caseStudy.title}</h3>
+                    <p className="text-gray-300 mb-4">{caseStudy.description}</p>
+                    <Link 
+                      to={`/case-studies/${caseStudy.slug}`}
+                      className="text-accent hover:text-orange-400 transition-colors font-medium"
+                    >
+                      View Case Study →
+                    </Link>
+                  </CardContent>
+                </Card>
+              ))}
             </div>
           </div>
+        </section>
+      )}
+
+      {/* Related Services */}
+      {relatedServices.length > 0 && (
+        <section className="py-16">
+          <div className="section-container">
+            <h2 className="text-3xl md:text-5xl font-bold text-white mb-12 text-center">
+              Related <span className="gradient-text">Services</span>
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {relatedServices.map((relatedService) => (
+                <Card key={relatedService.id} className="bg-gray-800/50 border-gray-700/30 hover:border-accent/50 transition-all duration-300">
+                  <CardContent className="p-6">
+                    <h3 className="text-xl font-bold text-white mb-3">{relatedService.title}</h3>
+                    <p className="text-gray-300 mb-4">{relatedService.description}</p>
+                    <Link 
+                      to={`/services/${relatedService.slug}`}
+                      className="text-accent hover:text-orange-400 transition-colors font-medium"
+                    >
+                      Learn More →
+                    </Link>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Articles That Go Deeper */}
+      {relatedArticles.length > 0 && (
+        <section className="py-16 bg-gray-900/30">
+          <div className="section-container">
+            <h2 className="text-3xl md:text-5xl font-bold text-white mb-12 text-center">
+              Articles That Go <span className="gradient-text">Deeper</span>
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {relatedArticles.map((article) => (
+                <Card key={article.id} className="bg-gray-800/50 border-gray-700/30 hover:border-accent/50 transition-all duration-300">
+                  <CardContent className="p-6">
+                    <div className="flex justify-between items-start mb-3">
+                      <h3 className="text-xl font-bold text-white">{article.title}</h3>
+                      <Badge variant="outline" className="border-gray-600 text-gray-400 text-xs">
+                        {article.read_time} min read
+                      </Badge>
+                    </div>
+                    <p className="text-gray-300 mb-4">{article.excerpt}</p>
+                    <Link 
+                      to={`/articles/${article.slug}`}
+                      className="text-accent hover:text-orange-400 transition-colors font-medium"
+                    >
+                      Read Article →
+                    </Link>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Call to Action */}
+      <section className="py-24">
+        <div className="section-container text-center">
+          <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">
+            Ready to Get Started?
+          </h2>
+          <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+            Book a free consultation to discuss your project requirements and explore how we can help you achieve your goals.
+          </p>
+          <Button 
+            onClick={() => window.open('https://calendly.com/brain-techailabs/techailabs', '_blank')}
+            className="btn-primary text-lg px-8 py-4"
+          >
+            Book Free Consultation
+          </Button>
         </div>
       </section>
     </Layout>
